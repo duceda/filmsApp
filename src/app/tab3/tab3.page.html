@@ -11,14 +11,14 @@
 
   <div *ngFor='let genero of favoritoPorGenero'>
 
-    <ion-grid *ngIf='genero.pelis.length > 0' fixed>
+    <ion-grid *ngIf='genero.pelis.length !== 0'>
       <ion-row>
         <ion-col size="6">
           <h4> {{ genero.name }}</h4>
         </ion-col>
       </ion-row>
 
-      <app-slideshow-poster [peliculas]='peliculasFavoritas'></app-slideshow-poster>
+      <app-slideshow-poster [peliculas]='genero.pelis'></app-slideshow-poster>
 
     </ion-grid>
     

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { PeliculaDetalle, Genre } from '../interfaces/interfaces';
+import { Component } from '@angular/core';
+import { Genre, PeliculaDetalle } from '../interfaces/interfaces';
 import { DataLocalService } from '../services/data-local.service';
 import { MoviesService } from '../services/movies.service';
 
@@ -8,7 +8,7 @@ import { MoviesService } from '../services/movies.service';
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss']
 })
-export class Tab3Page implements OnInit {
+export class Tab3Page {
   peliculasFavoritas: PeliculaDetalle[] = [];
   generos: Genre[] = [];
 
@@ -26,15 +26,19 @@ export class Tab3Page implements OnInit {
   }
 
   filmsByGenre(peliculas: PeliculaDetalle[], generos: Genre[]) {
+    this.favoritoPorGenero = [];
+    
     generos.forEach(genre => {
-      let obj = { genero: genre.name, pelis: [] };
+      let obj = { name: genre.name, pelis: [] };
       obj.pelis = peliculas.filter(pelicula => {
         if (pelicula.genres.find(gen => gen.id === genre.id)) {
           return pelicula;
         }
       });
 
-      this.favoritoPorGenero.push(obj);
+      if (obj.pelis.length > 0) {
+        this.favoritoPorGenero.push(obj);
+      }
     });
 
     console.log(this.favoritoPorGenero);
