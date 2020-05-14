@@ -1,4 +1,4 @@
-import { PeliculaDetalle, RespuestaCredits } from './../interfaces/interfaces';
+import { PeliculaDetalle, RespuestaCredits, Genre } from './../interfaces/interfaces';
 import { environment } from './../../environments/environment.prod';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -12,8 +12,9 @@ const API_URL = environment.url;
 })
 export class MoviesService {
   private popularesPage: number = 0;
+  private generos: any[] = [];
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient) {}
 
   private executeQuery<T>(query: string) {
     query = API_URL + query;
@@ -24,7 +25,11 @@ export class MoviesService {
 
   public getFeature() {
     const today = new Date();
-    const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+    const lastDay = new Date(
+      today.getFullYear(),
+      today.getMonth() + 1,
+      0
+    ).getDate();
 
     const month = today.getMonth() + 1;
     let monthString;
@@ -38,7 +43,9 @@ export class MoviesService {
     const start = `${today.getFullYear()}-${monthString}-01`;
     const end = `${today.getFullYear()}-${monthString}-${lastDay}`;
 
-    return this.executeQuery<RespuestaMDB>(`/discover/movie?primary_release_date.gte=${start}&primary_release_date.lte=${end}`);
+    return this.executeQuery<RespuestaMDB>(
+      `/discover/movie?primary_release_date.gte=${start}&primary_release_date.lte=${end}`
+    );
   }
 
   public getPopulares() {
@@ -55,5 +62,20 @@ export class MoviesService {
   public getActoresPelicula(idPelicula: string) {
     const query = `/movie/${idPelicula}/credits?a=1`;
     return this.executeQuery<RespuestaCredits>(query);
+  }
+
+  public buscarPeliculas(nombre: string) {
+    const query = `/search/movie?query=${nombre}`;
+    return this.executeQuery<RespuestaCredits>(query);
+  }
+
+  public getGenres(): Promise<Genre[]> {
+    return new Promise(resolve => {
+      const query = `/genre/movie/list?a=1`;
+      this.executeQuery<RespuestaCredits>(query).subscribe(response => {
+        this.generos = response['genres'];
+        resolve(this.generos);
+      });
+    });
   }
 }

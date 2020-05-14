@@ -1,11 +1,13 @@
 {
   "name": "filmsApp",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular",
- "proxies": [
-	{
-	  "path": "/",
-	  "proxyUrl": "http://localhost:8100"
-	}
+  "proxies": [
+    {
+      "path": "/",
+      "proxyUrl": "http://localhost:8100"
+    }
   ]
 }
