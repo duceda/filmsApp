@@ -1,4 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { environment } from 'src/environments/environment';
+
+const url = environment.imgPath;
 
 @Pipe({
   name: 'imagen'
@@ -6,11 +9,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ImagenPipe implements PipeTransform {
 
   transform(img: string, size = 'w500'): string {
+    if (!img) {
+      return './assets/no_image_banner.jpg';
+    }
 
-    https://image.tmdb.org/t/p/w500/kqjL17yufvn9OVLyXYpvtyrFfak.jpg
-
-
-    return null;
+    return `${url}/${size}/${img}`;
   }
 
 }

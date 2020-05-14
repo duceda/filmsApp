@@ -6,7 +6,14 @@ import { Component } from '@angular/core';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
+  textoBuscar: string = '';
+  ideas: Array<string> = [];
 
-  constructor() {}
+  constructor() { }
+
+  buscar(event: any) {
+    const valor = event.detail.value;
+    
+  }
 
 }
